@@ -6,6 +6,7 @@
 #include <pybind11/stl.h>
 #include "otio_errorStatusHandler.h"
 
+#include "opentime/timeMap.h"
 #include "opentimelineio/clip.h"
 #include "opentimelineio/color.h"
 #include "opentimelineio/composable.h"
@@ -23,6 +24,7 @@
 #include "opentimelineio/missingReference.h"
 #include "opentimelineio/stack.h"
 #include "opentimelineio/timeEffect.h"
+#include "opentimelineio/timeRemap.h"
 #include "opentimelineio/timeline.h"
 #include "opentimelineio/track.h"
 #include "opentimelineio/transition.h"
@@ -748,6 +750,16 @@ Instead it affects the speed of the media displayed within that item.
         .def(py::init([](std::string name, py::object metadata) {
                     return new FreezeFrame(name, py_to_any_dictionary(metadata)); }),
             py::arg_v("name"_a = std::string()),
+            py::arg_v("metadata"_a = py::none()));
+
+    py::class_<TimeRemap, TimeEffect, managing_ptr<TimeRemap>>(m, "TimeRemap", py::dynamic_attr(), "Maps a list of input times to a list of output times.")
+        .def(py::init([](std::string name,
+                         const TimeMap& time_map,
+                         py::object metadata) {
+                    return new TimeRemap(name, "TimeRemap", time_map,
+                                         py_to_any_dictionary(metadata)); }),
+            py::arg_v("name"_a = std::string()),
+            "time_map"_a = TimeMap(),
             py::arg_v("metadata"_a = py::none()));
 }
 
