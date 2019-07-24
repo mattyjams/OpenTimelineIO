@@ -2,6 +2,8 @@
 // Copyright Contributors to the OpenTimelineIO project
 
 #include "opentime/rationalTime.h"
+#include "opentime/timeList.h"
+#include "opentime/timeMap.h"
 #include "opentime/timeRange.h"
 #include "opentime/timeTransform.h"
 #include "opentimelineio/color.h"
@@ -580,6 +582,26 @@ SerializableObject::Reader::_decode(_Resolver& resolver)
                    ? std::any(RationalTime(value, rate))
                    : std::any();
     }
+    else if (schema_name_and_version == "TimeList.1")
+    {
+        AnyVector timesAnyVec;
+        std::vector<double> times;
+        double rate;
+        return _fetch("times", &timesAnyVec)
+                       && _from_any(timesAnyVec, &times)
+                       && _fetch("rate", &rate)
+                   ? std::any(TimeList(times, rate))
+                   : std::any();
+    }
+    else if (schema_name_and_version == "TimeMap.1")
+    {
+        TimeList input_times;
+        TimeList output_times;
+        return _fetch("input_times", &input_times)
+                       && _fetch("output_times", &output_times)
+                   ? std::any(TimeMap(input_times, output_times))
+                   : std::any();
+    }
     else if (schema_name_and_version == "TimeRange.1")
     {
         RationalTime start_time, duration;
@@ -731,6 +753,18 @@ SerializableObject::Reader::read(std::string const& key, RationalTime* value)
 }
 
 bool
+SerializableObject::Reader::read(std::string const& key, TimeList* value)
+{
+    return _fetch(key, value);
+}
+
+bool
+SerializableObject::Reader::read(std::string const& key, TimeMap* value)
+{
+    return _fetch(key, value);
+}
+
+bool
 SerializableObject::Reader::read(std::string const& key, TimeRange* value)
 {
     return _fetch(key, value);
@@ -820,6 +854,22 @@ bool
 SerializableObject::Reader::read(
     std::string const&           key,
     std::optional<RationalTime>* value)
+{
+    return _read_optional(key, value);
+}
+
+bool
+SerializableObject::Reader::read(
+    std::string const&       key,
+    std::optional<TimeList>* value)
+{
+    return _read_optional(key, value);
+}
+
+bool
+SerializableObject::Reader::read(
+    std::string const&      key,
+    std::optional<TimeMap>* value)
 {
     return _read_optional(key, value);
 }
