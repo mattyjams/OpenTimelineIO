@@ -74,6 +74,8 @@ public:
     virtual void write_value(double value)                           = 0;
     virtual void write_value(std::string const& value)               = 0;
     virtual void write_value(class RationalTime const& value)        = 0;
+    virtual void write_value(class TimeList const& value)            = 0;
+    virtual void write_value(class TimeMap const& value)             = 0;
     virtual void write_value(class TimeRange const& value)           = 0;
     virtual void write_value(class TimeTransform const& value)       = 0;
     virtual void write_value(class Color const& value)               = 0;
@@ -213,6 +215,40 @@ public:
                 { "OTIO_SCHEMA", "RationalTime.1" },
                 { "value", value.value() },
                 { "rate", value.rate() },
+            };
+            _store(std::any(std::move(result)));
+        }
+        else
+        {
+            _store(std::any(value));
+        }
+    }
+    void write_value(TimeList const& value) override
+    {
+
+        if (_result_object_policy == ResultObjectPolicy::OnlyAnyDictionary)
+        {
+            AnyDictionary result = {
+                { "OTIO_SCHEMA", "TimeList.1" },
+                { "times", value.times() },
+                { "rate", value.rate() },
+            };
+            _store(std::any(std::move(result)));
+        }
+        else
+        {
+            _store(std::any(value));
+        }
+    }
+    void write_value(TimeMap const& value) override
+    {
+
+        if (_result_object_policy == ResultObjectPolicy::OnlyAnyDictionary)
+        {
+            AnyDictionary result = {
+                { "OTIO_SCHEMA", "TimeMap.1" },
+                { "input_times", value.input_times() },
+                { "output_times", value.output_times() },
             };
             _store(std::any(std::move(result)));
         }
@@ -565,6 +601,42 @@ public:
         _writer.EndObject();
     }
 
+    void write_value(TimeList const& value)
+    {
+        _writer.StartObject();
+
+        _writer.Key("OTIO_SCHEMA");
+        _writer.String("TimeList.1");
+
+        _writer.Key("times");
+        _writer.StartArray();
+        for (const double t : value.times()) {
+            _writer.Double(t);
+        }
+        _writer.EndArray();
+
+        _writer.Key("rate");
+        write_value(value.rate());
+
+        _writer.EndObject();
+    }
+
+    void write_value(TimeMap const& value)
+    {
+        _writer.StartObject();
+
+        _writer.Key("OTIO_SCHEMA");
+        _writer.String("TimeMap.1");
+
+        _writer.Key("input_times");
+        write_value(value.input_times());
+
+        _writer.Key("output_times");
+        write_value(value.output_times());
+
+        _writer.EndObject();
+    }
+
     void write_value(TimeRange const& value)
     {
         _writer.StartObject();
@@ -734,6 +806,12 @@ SerializableObject::Writer::_build_dispatch_tables()
     wt[&typeid(RationalTime)] = [this](std::any const& value) {
         _encoder.write_value(std::any_cast<RationalTime const&>(value));
     };
+    wt[&typeid(TimeList)] = [this](std::any const& value) {
+        _encoder.write_value(std::any_cast<TimeList const&>(value));
+    };
+    wt[&typeid(TimeMap)] = [this](std::any const& value) {
+        _encoder.write_value(std::any_cast<TimeMap const&>(value));
+    };
     wt[&typeid(TimeRange)] = [this](std::any const& value) {
         _encoder.write_value(std::any_cast<TimeRange const&>(value));
     };
@@ -786,6 +864,8 @@ SerializableObject::Writer::_build_dispatch_tables()
     et[&typeid(std::string)]   = &_simple_any_comparison<std::string>;
     et[&typeid(char const*)]   = &_simple_any_comparison<char const*>;
     et[&typeid(RationalTime)]  = &_simple_any_comparison<RationalTime>;
+    et[&typeid(TimeList)]      = &_simple_any_comparison<TimeList>;
+    et[&typeid(TimeMap)]       = &_simple_any_comparison<TimeMap>;
     et[&typeid(TimeRange)]     = &_simple_any_comparison<TimeRange>;
     et[&typeid(TimeTransform)] = &_simple_any_comparison<TimeTransform>;
     et[&typeid(Color)]         = &_simple_any_comparison<Color>;
@@ -938,6 +1018,20 @@ SerializableObject::Writer::write(std::string const& key, RationalTime value)
 }
 
 void
+SerializableObject::Writer::write(std::string const& key, TimeList value)
+{
+    _encoder_write_key(key);
+    _encoder.write_value(value);
+}
+
+void
+SerializableObject::Writer::write(std::string const& key, TimeMap value)
+{
+    _encoder_write_key(key);
+    _encoder.write_value(value);
+}
+
+void
 SerializableObject::Writer::write(std::string const& key, TimeRange value)
 {
     _encoder_write_key(key);
@@ -948,6 +1042,24 @@ void
 SerializableObject::Writer::write(
     std::string const&          key,
     std::optional<RationalTime> value)
+{
+    _encoder_write_key(key);
+    value ? _encoder.write_value(*value) : _encoder.write_null_value();
+}
+
+void
+SerializableObject::Writer::write(
+    std::string const&      key,
+    std::optional<TimeList> value)
+{
+    _encoder_write_key(key);
+    value ? _encoder.write_value(*value) : _encoder.write_null_value();
+}
+
+void
+SerializableObject::Writer::write(
+    std::string const&     key,
+    std::optional<TimeMap> value)
 {
     _encoder_write_key(key);
     value ? _encoder.write_value(*value) : _encoder.write_null_value();
