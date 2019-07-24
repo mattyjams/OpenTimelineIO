@@ -127,6 +127,8 @@ public:
         bool read(std::string const& key, double* dest);
         bool read(std::string const& key, std::string* dest);
         bool read(std::string const& key, RationalTime* dest);
+        bool read(std::string const& key, TimeList* dest);
+        bool read(std::string const& key, TimeMap* dest);
         bool read(std::string const& key, TimeRange* dest);
         bool read(std::string const& key, class TimeTransform* dest);
         bool read(std::string const& key, Color* dest);
@@ -140,6 +142,8 @@ public:
         bool read(std::string const& key, std::optional<int>* dest);
         bool read(std::string const& key, std::optional<double>* dest);
         bool read(std::string const& key, std::optional<RationalTime>* dest);
+        bool read(std::string const& key, std::optional<TimeList>* dest);
+        bool read(std::string const& key, std::optional<TimeMap>* dest);
         bool read(std::string const& key, std::optional<TimeRange>* dest);
         bool read(std::string const& key, std::optional<TimeTransform>* dest);
         bool read(std::string const& key, std::optional<Color>* dest);
