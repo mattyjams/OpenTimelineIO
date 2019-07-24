@@ -19,6 +19,7 @@ struct ErrorStatus
         TIMECODE_RATE_MISMATCH,
         NEGATIVE_VALUE,
         INVALID_RATE_FOR_DROP_FRAME_TIMECODE,
+        VALUE_COUNT_MISMATCH
     };
 
     ErrorStatus()
