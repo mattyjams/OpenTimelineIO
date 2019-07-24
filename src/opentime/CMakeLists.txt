@@ -2,6 +2,7 @@ set(OPENTIME_HEADER_FILES
     errorStatus.h
     rationalTime.h
     stringPrintf.h
+    timeList.h
     timeRange.h
     timeTransform.h
     version.h)
