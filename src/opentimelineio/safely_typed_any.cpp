@@ -26,6 +26,14 @@ any create_safely_typed_any(RationalTime&& value) {
     return any(value);
 }
 
+any create_safely_typed_any(TimeList&& value) {
+    return any(value);
+}
+
+any create_safely_typed_any(TimeMap&& value) {
+    return any(value);
+}
+
 any create_safely_typed_any(TimeRange&& value) {
     return any(value);
 }
@@ -69,6 +77,14 @@ std::string safely_cast_string_any(any const& a) {
 
 RationalTime safely_cast_rational_time_any(any const& a) {
     return any_cast<RationalTime>(a);
+}
+
+TimeList safely_cast_time_list_any(any const& a) {
+    return any_cast<TimeList>(a);
+}
+
+TimeMap safely_cast_time_map_any(any const& a) {
+    return any_cast<TimeMap>(a);
 }
 
 TimeRange safely_cast_time_range_any(any const& a) {

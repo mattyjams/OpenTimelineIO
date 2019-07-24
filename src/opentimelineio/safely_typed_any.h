@@ -18,6 +18,8 @@
 
 #include "opentimelineio/version.h"
 #include "opentime/rationalTime.h"
+#include "opentime/timeList.h"
+#include "opentime/timeMap.h"
 #include "opentime/timeRange.h"
 #include "opentime/timeTransform.h"
 #include "opentimelineio/serializableObject.h"
@@ -30,6 +32,8 @@ any create_safely_typed_any(int64_t&&);
 any create_safely_typed_any(double&&);
 any create_safely_typed_any(std::string&&);
 any create_safely_typed_any(RationalTime&&);
+any create_safely_typed_any(TimeList&&);
+any create_safely_typed_any(TimeMap&&);
 any create_safely_typed_any(TimeRange&&);
 any create_safely_typed_any(TimeTransform&&);
 any create_safely_typed_any(AnyVector&&);
@@ -42,6 +46,8 @@ int64_t safely_cast_int64_any(any const& a);
 double safely_cast_double_any(any const& a);
 std::string safely_cast_string_any(any const& a);
 RationalTime safely_cast_rational_time_any(any const& a);
+TimeList safely_cast_time_list_any(any const& a);
+TimeMap safely_cast_time_map_any(any const& a);
 TimeRange safely_cast_time_range_any(any const& a);
 TimeTransform safely_cast_time_transform_any(any const& a);
 SerializableObject* safely_cast_retainer_any(any const& a);
