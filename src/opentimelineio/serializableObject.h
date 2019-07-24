@@ -74,6 +74,8 @@ public:
         bool read(std::string const& key, double* dest);
         bool read(std::string const& key, std::string* dest);
         bool read(std::string const& key, RationalTime* dest);
+        bool read(std::string const& key, TimeList* dest);
+        bool read(std::string const& key, TimeMap* dest);
         bool read(std::string const& key, TimeRange* dest);
         bool read(std::string const& key, class TimeTransform* dest);
         bool read(std::string const& key, AnyVector* dest);
@@ -84,6 +86,8 @@ public:
         bool read(std::string const& key, optional<int>* dest);
         bool read(std::string const& key, optional<double>* dest);
         bool read(std::string const& key, optional<RationalTime>* dest);
+        bool read(std::string const& key, optional<TimeList>* dest);
+        bool read(std::string const& key, optional<TimeMap>* dest);
         bool read(std::string const& key, optional<TimeRange>* dest);
         bool read(std::string const& key, optional<TimeTransform>* dest);
         // skipping std::string because we translate null into the empty
