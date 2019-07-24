@@ -7,6 +7,7 @@ set(OPENTIME_HEADER_FILES
     rationalTime.h
     stringPrintf.h
     timeList.h
+    timeMap.h
     timeRange.h
     timeTransform.h)
 
