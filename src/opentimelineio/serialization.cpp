@@ -50,6 +50,8 @@ public:
     virtual void write_value(double value) = 0;
     virtual void write_value(std::string const& value) = 0;
     virtual void write_value(class RationalTime const& value) = 0;
+    virtual void write_value(class TimeList const& value) = 0;
+    virtual void write_value(class TimeMap const& value) = 0;
     virtual void write_value(class TimeRange const& value) = 0;
     virtual void write_value(class TimeTransform const& value) = 0;
     virtual void write_value(struct SerializableObject::ReferenceId) = 0;
@@ -137,6 +139,14 @@ public:
     }
 
     void write_value(RationalTime const& value) {
+        _store(any(value));
+    }
+
+    void write_value(TimeList const& value) {
+        _store(any(value));
+    }
+
+    void write_value(TimeMap const& value) {
         _store(any(value));
     }
 
@@ -306,6 +316,40 @@ public:
         _writer.EndObject();
     }
 
+    void write_value(TimeList const& value) {
+        _writer.StartObject();
+
+        _writer.Key("OTIO_SCHEMA");
+        _writer.String("TimeList.1");
+
+        _writer.Key("times");
+        _writer.StartArray();
+        for (const double t : value.times()) {
+            _writer.Double(t);
+        }
+        _writer.EndArray();
+
+        _writer.Key("rate");
+        write_value(value.rate());
+
+        _writer.EndObject();
+    }
+
+    void write_value(TimeMap const& value) {
+        _writer.StartObject();
+
+        _writer.Key("OTIO_SCHEMA");
+        _writer.String("TimeMap.1");
+
+        _writer.Key("input_times");
+        write_value(value.input_times());
+        
+        _writer.Key("output_times");
+        write_value(value.output_times());
+
+        _writer.EndObject();
+    }
+
     void write_value(TimeRange const& value) {
         _writer.StartObject();
 
@@ -399,6 +443,8 @@ void SerializableObject::Writer::_build_dispatch_tables() {
     wt[&typeid(char const*)] = [this](any const& value) {
         _encoder.write_value(std::string(any_cast<char const*>(value))); };
     wt[&typeid(RationalTime)] = [this](any const& value) { _encoder.write_value(any_cast<RationalTime const&>(value)); };
+    wt[&typeid(TimeList)] = [this](any const& value) { _encoder.write_value(any_cast<TimeList const&>(value)); };
+    wt[&typeid(TimeMap)] = [this](any const& value) { _encoder.write_value(any_cast<TimeMap const&>(value)); };
     wt[&typeid(TimeRange)] = [this](any const& value) { _encoder.write_value(any_cast<TimeRange const&>(value)); };
     wt[&typeid(TimeTransform)] = [this](any const& value) { _encoder.write_value(any_cast<TimeTransform const&>(value)); };
 
@@ -431,6 +477,8 @@ void SerializableObject::Writer::_build_dispatch_tables() {
     et[&typeid(std::string)] = &_simple_any_comparison<std::string>;
     et[&typeid(char const*)] = &_simple_any_comparison<char const*>;
     et[&typeid(RationalTime)] = &_simple_any_comparison<RationalTime>;
+    et[&typeid(TimeList)] = &_simple_any_comparison<TimeList>;
+    et[&typeid(TimeMap)] = &_simple_any_comparison<TimeMap>;
     et[&typeid(TimeRange)] = &_simple_any_comparison<TimeRange>;
     et[&typeid(TimeTransform)] = &_simple_any_comparison<TimeTransform>;
     et[&typeid(SerializableObject::ReferenceId)] = &_simple_any_comparison<SerializableObject::ReferenceId>;
@@ -529,12 +577,32 @@ void SerializableObject::Writer::write(std::string const& key, RationalTime valu
     _encoder.write_value(value);
 }
 
+void SerializableObject::Writer::write(std::string const& key, const TimeList& value) {
+    _encoder_write_key(key);
+    _encoder.write_value(value);
+}
+
+void SerializableObject::Writer::write(std::string const& key, const TimeMap& value) {
+    _encoder_write_key(key);
+    _encoder.write_value(value);
+}
+
 void SerializableObject::Writer::write(std::string const& key, TimeRange value) {
     _encoder_write_key(key);
     _encoder.write_value(value);
 }
 
 void SerializableObject::Writer::write(std::string const& key, optional<RationalTime> value) {
+    _encoder_write_key(key);
+    value ? _encoder.write_value(*value) : _encoder.write_null_value();
+}
+
+void SerializableObject::Writer::write(std::string const& key, const optional<TimeList>& value) {
+    _encoder_write_key(key);
+    value ? _encoder.write_value(*value) : _encoder.write_null_value();
+}
+
+void SerializableObject::Writer::write(std::string const& key, const optional<TimeMap>& value) {
     _encoder_write_key(key);
     value ? _encoder.write_value(*value) : _encoder.write_null_value();
 }

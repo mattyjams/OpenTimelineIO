@@ -8,6 +8,8 @@
 #include "opentimelineio/typeRegistry.h"
 #include "opentimelineio/stringUtils.h"
 #include "opentime/rationalTime.h"
+#include "opentime/timeList.h"
+#include "opentime/timeMap.h"
 #include "opentime/timeRange.h"
 #include "opentime/timeTransform.h"
 #include <type_traits>
@@ -323,8 +325,12 @@ public:
         void write(std::string const& key, double value);
         void write(std::string const& key, std::string const& value);
         void write(std::string const& key, RationalTime value);
+        void write(std::string const& key, const TimeList& value);
+        void write(std::string const& key, const TimeMap& value);
         void write(std::string const& key, TimeRange value);
         void write(std::string const& key, optional<RationalTime> value);
+        void write(std::string const& key, const optional<TimeList>& value);
+        void write(std::string const& key, const optional<TimeMap>& value);
         void write(std::string const& key, optional<TimeRange> value);
         void write(std::string const& key, class TimeTransform value);
         void write(std::string const& key, SerializableObject const* value);
