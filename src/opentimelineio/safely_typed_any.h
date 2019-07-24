@@ -21,6 +21,8 @@
 
 #include "opentimelineio/export.h"
 #include "opentime/rationalTime.h"
+#include "opentime/timeList.h"
+#include "opentime/timeMap.h"
 #include "opentime/timeRange.h"
 #include "opentime/timeTransform.h"
 #include "opentimelineio/color.h"
@@ -39,6 +41,8 @@ OTIO_API std::any create_safely_typed_any(uint64_t&&);
 OTIO_API std::any create_safely_typed_any(double&&);
 OTIO_API std::any create_safely_typed_any(std::string&&);
 OTIO_API std::any create_safely_typed_any(RationalTime&&);
+OTIO_API std::any create_safely_typed_any(TimeList&&);
+OTIO_API std::any create_safely_typed_any(TimeMap&&);
 OTIO_API std::any create_safely_typed_any(TimeRange&&);
 OTIO_API std::any create_safely_typed_any(Color&&);
 OTIO_API std::any create_safely_typed_any(TimeTransform&&);
@@ -60,6 +64,8 @@ OTIO_API uint64_t               safely_cast_uint64_any(std::any const& a);
 OTIO_API double                 safely_cast_double_any(std::any const& a);
 OTIO_API std::string            safely_cast_string_any(std::any const& a);
 OTIO_API RationalTime           safely_cast_rational_time_any(std::any const& a);
+OTIO_API TimeList               safely_cast_time_list_any(std::any const& a);
+OTIO_API TimeMap                safely_cast_time_map_any(std::any const& a);
 OTIO_API TimeRange              safely_cast_time_range_any(std::any const& a);
 OTIO_API TimeTransform          safely_cast_time_transform_any(std::any const& a);
 OTIO_API Color                  safely_cast_color_any(std::any const& a);
