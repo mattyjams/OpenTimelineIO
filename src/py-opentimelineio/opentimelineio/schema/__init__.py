@@ -20,6 +20,7 @@ from .. _otio import (
     MissingReference,
     SerializableCollection,
     Stack,
+    TimeRemap,
     Timeline,
     Track,
     Transition,
