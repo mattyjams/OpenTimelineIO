@@ -20,6 +20,8 @@
 /// exists.
 
 #include "opentime/rationalTime.h"
+#include "opentime/timeList.h"
+#include "opentime/timeMap.h"
 #include "opentime/timeRange.h"
 #include "opentime/timeTransform.h"
 #include "opentimelineio/color.h"
@@ -38,6 +40,8 @@ std::any create_safely_typed_any(uint64_t&&);
 std::any create_safely_typed_any(double&&);
 std::any create_safely_typed_any(std::string&&);
 std::any create_safely_typed_any(RationalTime&&);
+std::any create_safely_typed_any(TimeList&&);
+std::any create_safely_typed_any(TimeMap&&);
 std::any create_safely_typed_any(TimeRange&&);
 std::any create_safely_typed_any(Color&&);
 std::any create_safely_typed_any(TimeTransform&&);
@@ -59,6 +63,8 @@ uint64_t               safely_cast_uint64_any(std::any const& a);
 double                 safely_cast_double_any(std::any const& a);
 std::string            safely_cast_string_any(std::any const& a);
 RationalTime           safely_cast_rational_time_any(std::any const& a);
+TimeList               safely_cast_time_list_any(std::any const& a);
+TimeMap                safely_cast_time_map_any(std::any const& a);
 TimeRange              safely_cast_time_range_any(std::any const& a);
 TimeTransform          safely_cast_time_transform_any(std::any const& a);
 Color                  safely_cast_color_any(std::any const& a);
