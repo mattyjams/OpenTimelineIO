@@ -30,6 +30,7 @@ set(OPENTIMELINEIO_HEADER_FILES
     stack.h
     stackAlgorithm.h
     timeEffect.h
+    timeRemap.h
     timeline.h
     track.h
     trackAlgorithm.h
@@ -67,6 +68,7 @@ add_library(opentimelineio ${OTIO_SHARED_OR_STATIC_LIB}
     stringUtils.cpp
     stringUtils.h # stringUtils.h is a private header
     timeEffect.cpp
+    timeRemap.cpp
     timeline.cpp
     track.cpp
     trackAlgorithm.cpp
