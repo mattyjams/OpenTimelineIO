@@ -3,6 +3,8 @@
 
 from . _opentime import ( # noqa
     RationalTime,
+    TimeList,
+    TimeMap,
     TimeRange,
     TimeTransform,
 )
