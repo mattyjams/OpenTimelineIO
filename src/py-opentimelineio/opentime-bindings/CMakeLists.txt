@@ -4,6 +4,8 @@
 pybind11_add_module(_opentime
                     opentime_bindings.cpp
                     opentime_rationalTime.cpp
+                    opentime_timeList.cpp
+                    opentime_timeMap.cpp
                     opentime_timeRange.cpp
                     opentime_timeTransform.cpp
                     opentime_bindings.h)
