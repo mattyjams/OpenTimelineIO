@@ -2,6 +2,7 @@
 #include <pybind11/operators.h>
 #include "otio_errorStatusHandler.h"
 
+#include "opentime/timeMap.h"
 #include "opentimelineio/clip.h"
 #include "opentimelineio/composable.h"
 #include "opentimelineio/composition.h"
@@ -17,6 +18,7 @@
 #include "opentimelineio/missingReference.h"
 #include "opentimelineio/stack.h"
 #include "opentimelineio/timeEffect.h"
+#include "opentimelineio/timeRemap.h"
 #include "opentimelineio/timeline.h"
 #include "opentimelineio/track.h"
 #include "opentimelineio/transition.h"
@@ -562,6 +564,17 @@ static void define_effects(py::module m) {
                     return new FreezeFrame(name, py_to_any_dictionary(metadata)); }),
             name_arg,
             metadata_arg);
+
+    py::class_<TimeRemap, TimeEffect, managing_ptr<TimeRemap>>(m, "TimeRemap", py::dynamic_attr())
+        .def(py::init([](const std::string& name,
+                         const TimeMap& time_map,
+                         py::object metadata) {
+                          return new TimeRemap(name, "TimeRemap", time_map,
+                                               py_to_any_dictionary(metadata)); }),
+             name_arg,
+             "time_map"_a = TimeMap(),
+             metadata_arg)
+        .def_property("time_map", &TimeRemap::time_map, &TimeRemap::set_time_map);
 }
 
 static void define_media_references(py::module m) {
