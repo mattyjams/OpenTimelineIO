@@ -4,6 +4,8 @@
 #pragma once
 
 #include "opentime/rationalTime.h"
+#include "opentime/timeList.h"
+#include "opentime/timeMap.h"
 #include "opentime/timeRange.h"
 #include "opentime/timeTransform.h"
 #include "opentimelineio/anyDictionary.h"
@@ -450,11 +452,15 @@ public:
         void write(std::string const& key, double value);
         void write(std::string const& key, std::string const& value);
         void write(std::string const& key, RationalTime value);
+        void write(std::string const& key, TimeList value);
+        void write(std::string const& key, TimeMap value);
         void write(std::string const& key, TimeRange value);
         void write(std::string const& key, IMATH_NAMESPACE::V2d value);
         void write(std::string const& key, IMATH_NAMESPACE::Box2d value);
         void write(std::string const& key, std::optional<Color> value);
         void write(std::string const& key, std::optional<RationalTime> value);
+        void write(std::string const& key, std::optional<TimeList> value);
+        void write(std::string const& key, std::optional<TimeMap> value);
         void write(std::string const& key, std::optional<TimeRange> value);
         void write(
             std::string const&                    key,
