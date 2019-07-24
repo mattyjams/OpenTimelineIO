@@ -10,12 +10,16 @@
 #define OPENTIMELINEIO_VERSION_NS v0_19
 
 #include "opentime/rationalTime.h"
+#include "opentime/timeList.h"
+#include "opentime/timeMap.h"
 #include "opentime/timeRange.h"
 #include "opentime/timeTransform.h"
 #include "opentime/version.h"
 
 namespace opentimelineio { namespace OPENTIMELINEIO_VERSION_NS {
 using opentime::RationalTime;
+using opentime::TimeList;
+using opentime::TimeMap;
 using opentime::TimeRange;
 using opentime::TimeTransform;
 }} // namespace opentimelineio::OPENTIMELINEIO_VERSION_NS
