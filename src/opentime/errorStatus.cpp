@@ -24,6 +24,8 @@ ErrorStatus::outcome_to_string(Outcome o)
             return "value cannot be negative here";
         case INVALID_RATE_FOR_DROP_FRAME_TIMECODE:
             return "rate is not valid for drop frame timecode";
+        case VALUE_COUNT_MISMATCH:
+            return "value count mismatch";
         default:
             return "unknown/illegal ErrorStatus::Outcome code";
     };
