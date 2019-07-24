@@ -23,6 +23,7 @@
 #include "opentimelineio/serializableObjectWithMetadata.h"
 #include "opentimelineio/stack.h"
 #include "opentimelineio/timeEffect.h"
+#include "opentimelineio/timeRemap.h"
 #include "opentimelineio/timeline.h"
 #include "opentimelineio/track.h"
 #include "opentimelineio/transition.h"
@@ -83,6 +84,7 @@ TypeRegistry::TypeRegistry()
 
     register_type<Stack>();
     register_type<TimeEffect>();
+    register_type<TimeRemap>();
     register_type<Timeline>();
     register_type<Track>();
     register_type_from_existing_type("Sequence", 1, "Track", nullptr);
