@@ -4,8 +4,11 @@
 #pragma once
 
 #include "opentime/export.h"
+#include "opentime/rationalTime.h"
+#include "opentime/timeRange.h"
 #include "opentime/version.h"
 
+#include <algorithm>
 #include <vector>
 
 
@@ -41,6 +44,21 @@ public:
 
     size_t size() const {
         return _times.size();
+    }
+
+    TimeRange range() const {
+        if (_times.empty()) {
+            return TimeRange();
+        }
+
+        const auto min_max =
+            std::minmax_element(_times.cbegin(), _times.cend());
+
+        const RationalTime start_time(*min_max.first, _rate);
+        const RationalTime end_time_exclusive(*min_max.second + 1.0, _rate);
+
+        return TimeRange::range_from_start_end_time(
+            start_time, end_time_exclusive);
     }
 
     TimeList(const TimeList&) = default;
