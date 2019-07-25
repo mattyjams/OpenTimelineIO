@@ -65,8 +65,8 @@ void opentime_timeList_bindings(py::module m)
     py::class_<TimeList>(m, "TimeList")
         .def(py::init<std::vector<double>, double>(),
              "times"_a = std::vector<double>(), "rate"_a = 1.0)
-        .def_property_readonly("times", &TimeList::times)
-        .def_property_readonly("rate", &TimeList::rate)
+        .def_property("times", &TimeList::times, &TimeList::set_times)
+        .def_property("rate", &TimeList::rate, &TimeList::set_rate)
         .def_property_readonly("size", &TimeList::size)
         .def("__copy__", [](const TimeList& tl) {
                 return tl;
