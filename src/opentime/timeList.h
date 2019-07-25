@@ -23,8 +23,16 @@ public:
     {
     }
 
+    void set_times(const std::vector<double>& times) {
+        _times = times;
+    }
+
     const std::vector<double>& times() const {
         return _times;
+    }
+
+    void set_rate(const double rate) {
+        _rate = rate;
     }
 
     double rate() const {
