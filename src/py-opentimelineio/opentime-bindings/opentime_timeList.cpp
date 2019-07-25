@@ -68,6 +68,7 @@ void opentime_timeList_bindings(py::module m)
         .def_property("times", &TimeList::times, &TimeList::set_times)
         .def_property("rate", &TimeList::rate, &TimeList::set_rate)
         .def_property_readonly("size", &TimeList::size)
+        .def("range", &TimeList::range)
         .def("__copy__", [](const TimeList& tl) {
                 return tl;
             })
