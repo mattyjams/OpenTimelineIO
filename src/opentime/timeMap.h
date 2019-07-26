@@ -37,7 +37,9 @@ public:
             return;
         }
 
-        if (!std::is_sorted(input_times.cbegin(), input_times.cend())) {
+        if (!std::is_sorted(
+                input_times.times().cbegin(),
+                input_times.times().cend())) {
             *error_status =
                 ErrorStatus(
                     ErrorStatus::NEGATIVE_VALUE,
