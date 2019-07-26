@@ -61,6 +61,28 @@ public:
             start_time, end_time_exclusive);
     }
 
+    static TimeList list_from_range(const TimeRange& range) {
+        const RationalTime duration = range.duration();
+        const RationalTime start_time = range.start_time().rescaled_to(duration);
+
+        if (duration.value() <= 0.0) {
+            return TimeList({start_time.value()}, start_time.rate());
+        }
+
+        const RationalTime end_time_exclusive = range.end_time_exclusive();
+
+        const RationalTime stepTime(1.0, duration.rate());
+
+        std::vector<double> times;
+        RationalTime current_time = start_time;
+        while (current_time < end_time_exclusive) {
+            times.push_back(current_time.value());
+            current_time += stepTime;
+        }
+
+        return TimeList(times, duration.rate());
+    }
+
     TimeList(const TimeList&) = default;
     TimeList& operator=(const TimeList&) = default;
 
