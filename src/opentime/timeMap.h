@@ -7,6 +7,8 @@
 #include "opentime/timeList.h"
 #include "opentime/version.h"
 
+#include <algorithm>
+
 
 namespace opentime { namespace OPENTIME_VERSION {
 
@@ -36,6 +38,16 @@ public:
                         ErrorStatus::VALUE_COUNT_MISMATCH,
                         "input and output time lists must contain "
                         "the same number of values");
+            }
+            return;
+        }
+
+        if (!std::is_sorted(input_times.cbegin(), input_times.cend())) {
+            if (error_status) {
+                *error_status =
+                    ErrorStatus(
+                        ErrorStatus::NEGATIVE_VALUE,
+                        "input time list must be in non-descending order");
             }
             return;
         }
